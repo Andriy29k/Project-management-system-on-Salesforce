@@ -18,15 +18,15 @@ The goal of this project is to develop an information system for managing IT pro
 
 ### Key objectives
 
-[-] Time tracking optimization: The system enables logging time spent on project tasks and automatically generates reports, which can be used to create invoices for clients. This helps reduce financial calculation errors and increases transparency.
+- Time tracking optimization: The system enables logging time spent on project tasks and automatically generates reports, which can be used to create invoices for clients. This helps reduce financial calculation errors and increases transparency.
 
-[-] Absence management automation: The system simplifies the submission of leave, sick leave, and other non-project-related absence requests, adding flexibility to internal processes.
+- Absence management automation: The system simplifies the submission of leave, sick leave, and other non-project-related absence requests, adding flexibility to internal processes.
 
-[-] Improved analytics and reporting: The system allows for company-wide reporting and monitoring of each employee’s performance, helping leadership analyze productivity and make informed management decisions.
+- Improved analytics and reporting: The system allows for company-wide reporting and monitoring of each employee’s performance, helping leadership analyze productivity and make informed management decisions.
 
-[-] Integrated management approach: The system combines project management, financial accounting, and internal processes into a single platform, improving company coordination and competitiveness.
+- Integrated management approach: The system combines project management, financial accounting, and internal processes into a single platform, improving company coordination and competitiveness.
 
-[-] Ultimately, the project aims to increase the efficiency and flexibility of an IT company’s operations through a comprehensive information system that covers both project and internal business processes.
+- Ultimately, the project aims to increase the efficiency and flexibility of an IT company’s operations through a comprehensive information system that covers both project and internal business processes.
 
 # Research Tasks
 
@@ -40,9 +40,9 @@ Analyze system scalability prospects and outline possible development paths, inc
 
 # Object and Subject of Research
 
-[-] Object: Modern information systems for managing projects and resources, particularly their impact on business process efficiency, time tracking automation, and personnel management.
+- Object: Modern information systems for managing projects and resources, particularly their impact on business process efficiency, time tracking automation, and personnel management.
 
-[-] Subject: Architectural, functional, and technological aspects of implementing a time and absence management system based on the Salesforce platform, including its limitations, capabilities, and optimization for modern company needs.
+- Subject: Architectural, functional, and technological aspects of implementing a time and absence management system based on the Salesforce platform, including its limitations, capabilities, and optimization for modern company needs.
 
 # Research Methods
 

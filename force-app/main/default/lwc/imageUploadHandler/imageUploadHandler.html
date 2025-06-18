@@ -1,0 +1,63 @@
+<template>
+    <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open slds-modal_medium">
+        <div class="slds-modal__container">
+            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                <span class="slds-icon_container" title="Close">
+                    <lightning-icon icon-name="utility:close" alternative-text="Close" variant="bare" size="small"></lightning-icon>
+                </span>
+                <span class="slds-assistive-text">Close</span>
+            </button>
+            <div class="slds-modal__content slds-p-around_medium slds-modal__content_headless" id="modal-content-id-1">
+                <template if:true={isUploading}>
+                    <div class="slds-grid slds-grid_align-center slds-grid_vertical-align-center slds-m-bottom_large">
+                        <div>
+                            <lightning-progress-bar value={progress} size="medium" class="slds-m-bottom_small"></lightning-progress-bar>
+                            <p class="slds-text-align_center">Uploading {currentFileName} ({progress}%)</p>
+                        </div>
+                    </div>
+                </template>
+                <template if:false={isUploading}>
+                    <div if:true={isSeasonalPreviewAllowed}>
+                        <template if:true={seasonOptions}>
+                            <div class="slds-text-align_center slds-m-around_x-small">
+                                <h2>{previewUploadMessage}</h2>
+                            </div>
+                            <div class="slds-align_absolute-center">
+                                <lightning-combobox
+                                        name="season"
+                                        label="Season"
+                                        value={selectedSeason}
+                                        options={seasonOptions}
+                                        onchange={handleChange}>
+                                </lightning-combobox>
+                            </div>
+                        </template>
+                    </div>
+                    <template if:true={isImageUploaded}>
+                        <lightning-layout multiple-rows="true" vertical-align="center" horizontal-align="space">
+                            <template for:each={uploadedImageURLs} for:item="item">
+                                <lightning-layout-item  padding="around-small" size="4" key={item.url}>
+                                    <img src={item}/>
+                                </lightning-layout-item>
+                            </template>
+                        </lightning-layout>
+                    </template>
+                    <template if:false={isImageUploaded}>
+                        <div class="slds-align_absolute-center">
+                            <lightning-input type="file" accept="image/*" multiple={isMultipleUploadAllowed} label="Select File" onchange={handleFileChange}></lightning-input>
+                        </div>
+                    </template>
+                </template>
+            </div>
+            <template if:false={isUploading}>
+                <div class="slds-modal__footer">
+                    <div class="slds-align_absolute-center">
+                        <lightning-button class="slds-p-around_x-small" variant="neutral" label="Cancel" onclick={closeModal}></lightning-button>
+                        <lightning-button class="slds-p-around_x-small" variant="brand" label="Upload" onclick={uploadFile}></lightning-button>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+</template>

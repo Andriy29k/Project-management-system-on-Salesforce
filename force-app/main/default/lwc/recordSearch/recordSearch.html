@@ -1,0 +1,55 @@
+<template>
+    <div class="slds-form-element">
+        <label class="slds-form-element__label" for="searchInput">{label}</label>
+        <div class="slds-form-element__control slds-relative">
+            <input
+                    type="text"
+                    id="searchInput"
+                    class="slds-input"
+                    placeholder="Search..."
+                    value={searchTerm}
+                    oninput={handleInputChange}
+                    aria-haspopup="listbox"
+                    aria-expanded={showDropdown}
+                    aria-controls="searchResultsList"
+            />
+            <template if:true={showDropdown}>
+                <div class="slds-dropdown slds-dropdown_fluid slds-dropdown_length-5 slds-is-relative">
+                    <ul
+                            id="searchResultsList"
+                            class="slds-dropdown__list"
+                            role="listbox"
+                            aria-label="Search Results"
+                    >
+                        <template for:each={searchResults} for:item="result">
+                            <li
+                                    key={result.id}
+                                    role="option"
+                                    class="slds-dropdown__item"
+                                    onclick={handleSelect}
+                                    data-id={result.id}
+                            >
+                                <a class="slds-truncate slds-grid slds-align_absolute-center" title={result.label}>
+                                    <span>{result.label}</span>
+                                </a>
+                            </li>
+                        </template>
+                        <template if:true={noResults}>
+                            <li role="presentation" class="slds-dropdown__item">
+                                <a class="slds-truncate slds-grid slds-align_absolute-center" title="No results found">
+                                    <lightning-icon
+                                            icon-name="utility:error"
+                                            alternative-text="No results"
+                                            size="x-small"
+                                            class="slds-m-right_x-small"
+                                    ></lightning-icon>
+                                    <span>No results found</span>
+                                </a>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

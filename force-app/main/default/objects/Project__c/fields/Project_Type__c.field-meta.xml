@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Project_Type__c</fullName>
+    <label>Project Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Client Project</fullName>
+                <default>false</default>
+                <label>Client Project</label>
+            </value>
+            <value>
+                <fullName>Internal Project</fullName>
+                <default>false</default>
+                <label>Internal Project</label>
+            </value>
+            <value>
+                <fullName>Internal Activities</fullName>
+                <default>false</default>
+                <label>Internal Activities</label>
+            </value>
+            <value>
+                <fullName>Absences</fullName>
+                <default>false</default>
+                <label>Absences</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

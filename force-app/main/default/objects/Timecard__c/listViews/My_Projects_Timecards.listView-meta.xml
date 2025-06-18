@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>My_Projects_Timecards</fullName>
+    <columns>NAME</columns>
+    <columns>Project__c</columns>
+    <columns>Status__c</columns>
+    <columns>Total_Billiable_Amount__c</columns>
+    <columns>Monday_Hours__c</columns>
+    <columns>Tuesday_Hours__c</columns>
+    <columns>Wednesday_Hours__c</columns>
+    <columns>Thursday_Hours__c</columns>
+    <columns>Friday_Hours__c</columns>
+    <columns>Saturday_Hours__c</columns>
+    <columns>Sunday_Hours__c</columns>
+    <filterScope>Mine</filterScope>
+    <filters>
+        <field>Type__c</field>
+        <operation>equals</operation>
+        <value>Client Project</value>
+    </filters>
+    <label>My Projects Timecards</label>
+</ListView>

@@ -1,0 +1,57 @@
+<template>
+    <div class="slds-box slds-m-around_small">
+        <div class="slds-page-header slds-page-header_vertical">
+            <div class="slds-media">
+                <div class="slds-media__figure">
+                    <lightning-icon icon-name="standard:carousel" class="slds-icon-standard-carousel slds-m-right_xx-small headingIcon slds-icon_container"></lightning-icon>
+                </div>
+                <div class="slds-media__body">
+                    <div class="slds-page-header__name">
+                        <div class="slds-page-header__name-title">
+                            <h1>
+                                <span class="slds-page-header__title slds-hyphenate">Files</span>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-media__figure slds-media__figure_reverse">
+                    <lightning-button label="Upload" disabled={isDetailImagesUploadAllowed} onclick={handleUploadClick}></lightning-button>
+                </div>
+            </div>
+        </div>
+        <lightning-layout multiple-rows="true" vertical-align="center">
+            <template iterator:item={detailImages}>
+                <lightning-layout-item if:true={item.value.url} padding="around-small" size="2" key={item.value.url}>
+                    <div class="image-container" data-id={item.value.url} onclick={handleImageClick}>
+                        <img src={item.value.url}/>
+                    </div>
+                    <div class="slds-button-group slds-align_absolute-center">
+                        <lightning-button-icon class="slds-m-bottom_small slds-m-top_x-small slds-m-left_xxx-small" icon-name="utility:arrow_left" alternative-text="Change Order (left)" size="small" disabled={item.first} data-id={item.value.url} onclick={handleMoveLeft}></lightning-button-icon>
+                        <lightning-button-icon class="slds-m-bottom_small slds-m-top_x-small slds-m-left_small slds-m-right_xxx-small" icon-name="utility:replace" alternative-text="Replace" size="small" data-id={item.value.url} onclick={handleReplace}></lightning-button-icon>
+                        <lightning-button-icon class="slds-m-bottom_small slds-m-top_x-small slds-m-left_xxx-small" icon-name="utility:delete" alternative-text="Delete" size="small" data-id={item.value.url} onclick={handleDelete}></lightning-button-icon>
+                        <lightning-button-icon class="slds-m-bottom_small slds-m-top_x-small slds-m-left_small slds-m-left_xxx-small" icon-name="utility:arrow_right" alternative-text="Change Order (right)" size="small" disabled={item.last} data-id={item.value.url} onclick={handleMoveRight}></lightning-button-icon>
+                    </div>
+                    <div if:true={item.value.isError}>
+                        <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error" role="alert">
+                            <template for:each={item.value.errors} for:item="error">
+                                <h2 key={error}> {error} </h2>
+                            </template>
+                        </div>
+                    </div>
+                </lightning-layout-item>
+            </template>
+        </lightning-layout>
+        <div if:true={showSaveButton} class="slds-text-align_center slds-m-top_small">
+            <lightning-button label={saveButtonLabel} variant="brand" onclick={saveImageAdditionalData}></lightning-button>
+        </div>
+    </div>
+
+    <template if:true={showFullSizeImage}>
+        <c-image-modal image-url={currentImageSource} onfullsizeaction={handleFullSizeAction}></c-image-modal>
+    </template>
+
+    <template if:true={showUploadModal}>
+        <c-image-upload-handler disable-seasonal-images={disableSeasonalImages} max-image-size-in-m-b={maxFileSize} max-detail-images-to-upload={maxDetailImagesToUpload} season-options={seasonOptions} path={path} is-preview-image={isPreviewUpload} img-url-to-replace={urlForReplace} onclose={closeUploadModal} onupload={handleUploadResults}></c-image-upload-handler>
+    </template>
+
+</template>

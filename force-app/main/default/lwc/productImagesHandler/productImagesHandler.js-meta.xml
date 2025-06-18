@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>60.0</apiVersion>
+    <description>Product Images Handler</description>
+    <isExposed>true</isExposed>
+    <masterLabel>Product Images Handler</masterLabel>
+    <targets>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property name="imagesJsonFieldApiName" type="String" default="Images_JSON__c" label="Images JSON Field API Name" description="API name of the field storing JSON images"/>
+            <property name="isSyncedFieldApiName" type="String" label="Is Synced Field API Name" description="API name of the field indicating if the record is synced"/>
+            <property name="updateDisplayUrl" type="Boolean" label="Update Display URL" description="Indicates whether the display URL should be updated"/>
+            <property name="maxFileSize" type="Integer" default="5" label="Max File Size (MB)" description="Maximum file size for uploads in MB"/>
+            <property name="disableSeasonalImages" type="Boolean" default="false" label="Disable Seasonal Images" description="Disables the seasonal images feature"/>
+            <property name="skuFieldApiName" type="String" label="SKU Field API Name" description="API name of the SKU field. If specified, component automatically set SF Core Id to it when it is blank."/>
+            <property name="maxDetailImagesToUpload" type="Integer" label="Max detail images to upload" description="Maximum number of images allowed for record"/>
+            <property name="allowCopyrightsForPreview" type="Boolean" default="false" label="Allow Copyrights for Preview Images" description="Disables ability to add/change copyrights for preview imagges"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

@@ -1,0 +1,180 @@
+<template>
+    <lightning-card title="Timecard History">
+
+        <lightning-card title="Week Overview">
+            <!-- Grid Layout for Two Sections -->
+            <lightning-layout class="slds-p-around_medium">
+                <!-- First Section - Display Scheduled Time for the Week -->
+                <lightning-layout-item size="4" medium-device-size="4" class="slds-box slds-theme_default slds-m-around_small">
+                    <h2>Scheduled Time for the Week</h2>
+                    <template if:true={weekInfo}>
+                        <template for:each={weekInfo} for:item="scheduled">
+                            <div key={scheduled.projectName} class="slds-m-bottom_small">
+                                <p><strong>Project:</strong> {scheduled.projectName}</p>
+                                <p><strong>Required Hours:</strong> {scheduled.requiredHours}</p>
+                                <template if:true={scheduled.isDailyNotesRequired}>
+                                    <p><strong>Daily Notes:</strong> Required</p>
+                                </template>
+                                <template if:false={scheduled.isDailyNotesRequired}>
+                                    <p><strong>Daily Notes:</strong> Not Required</p>
+                                </template>
+                                <template if:true={scheduled.isOvertime}>
+                                    <p><strong>Overtime:</strong> Yes</p>
+                                </template>
+                                <template if:false={scheduled.isOvertime}>
+                                    <p><strong>Overtime:</strong> No</p>
+                                </template>
+                            </div>
+                        </template>
+                    </template>
+                    <template if:false={weekInfo}>
+                        <p>No scheduled time available.</p>
+                    </template>
+                </lightning-layout-item>
+
+                <lightning-layout-item size="4" medium-device-size="4" class="slds-box slds-theme_default slds-m-around_small">
+                    <template if:true={absenceInfo}>
+                        <lightning-card title="Absence Summary">
+                            <lightning-datatable
+                                    key-field="name"
+                                    data={absenceInfo}
+                                    columns={absenceColumns}
+                                    hide-checkbox-column
+                            >
+                            </lightning-datatable>
+                        </lightning-card>
+                    </template>
+                    <template if:false={absenceInfo}>
+                        <p>Absence Summary not available. Please, contact your manager.</p>
+                    </template>
+                </lightning-layout-item>
+
+                <lightning-layout-item size="3" medium-device-size="3" class="slds-box slds-theme_default slds-m-around_small">
+                    <template if:true={holidays}>
+                        <lightning-card title="Holidays">
+                            <template for:each={holidays} for:item="holiday">
+                                <div key={holiday.Id} class="slds-m-bottom_small">
+                                    <p><strong>Holiday Name:</strong> {holiday.Name}</p>
+                                    <p><strong>Holiday Date:</strong> {holiday.Date__c}</p>
+                                </div>
+                            </template>
+                        </lightning-card>
+                    </template>
+                    <template if:false={holidays}>
+                        <p>No holidays available for the selected week.</p>
+                    </template>
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-card>
+
+        <div class="slds-m-bottom_medium slds-text-align_center">
+            <p class="formatted-date">{currentStartDate} - {currentEndDate}</p>
+        </div>
+
+        <div class="slds-m-bottom_medium slds-text-align_center">
+            <lightning-button
+                    label="Previous Week"
+                    onclick={handlePreviousWeek}
+                    class="slds-m-right_small">
+            </lightning-button>
+            <template if:false={isCurrentWeekSelected}>
+                <lightning-button
+                        label="Current Week"
+                        onclick={handleCurrentWeek}>
+                </lightning-button>
+            </template>
+            <lightning-button
+                    label="Next Week"
+                    onclick={handleNextWeek}
+                    class="slds-m-left_small">
+            </lightning-button>
+        </div>
+
+        <template if:true={timecardExist}>
+            <div class="slds-m-around_medium">
+                <lightning-datatable
+                        data={timecards}
+                        columns={columns}
+                        key-field="id"
+                        onrowaction={handleRowAction}
+                >
+                </lightning-datatable>
+            </div>
+        </template>
+        <template if:false={timecardExist}>
+            <p class="slds-text-align_center slds-m-bottom_medium">No timecards exist for the selected week. Please log time.</p>
+        </template>
+
+        <div class="slds-m-bottom_medium slds-text-align_center">
+            <lightning-button
+                    label="Log Time"
+                    onclick={openModal}
+                    class="slds-m-right_small">
+                ></lightning-button>
+            <lightning-button
+                    variant="brand"
+                    label="Submit Selected Rows For Approval"
+                    class="slds-m-left_small"
+                    onclick={submitSelectedRowsForApproval}
+            >
+                ></lightning-button>
+        </div>
+
+        <!-- Modal for creating a Timecard -->
+        <template if:true={isModalOpen}>
+            <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- Modal content -->
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                            <lightning-icon icon-name="utility:close" size="small" alternative-text="close" class="slds-button__icon slds-button__icon_large"></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 class="slds-text-heading_medium">Create Timecard</h2>
+                    </header>
+
+                    <div class="slds-modal__content slds-p-around_medium">
+                        <lightning-record-edit-form
+                                object-api-name="Timecard__c"
+                                record-id={targetRecordId}
+                                onsuccess={handleSuccess}
+                                onsubmit={handleSubmit}>
+                            <lightning-messages> </lightning-messages>
+                            <lightning-input-field field-name={nameField}> </lightning-input-field>
+                            <lightning-input-field field-name={projectField}> </lightning-input-field>
+                            <lightning-input-field field-name={assignmentField}> </lightning-input-field>
+                            <lightning-input-field field-name={milestoneField}> </lightning-input-field>
+                            <lightning-input-field field-name={typeField}> </lightning-input-field>
+                            <lightning-input-field field-name={mondayHoursField}> </lightning-input-field>
+                            <lightning-input-field field-name={tuesdayHoursField}> </lightning-input-field>
+                            <lightning-input-field field-name={wednesdayHoursField}> </lightning-input-field>
+                            <lightning-input-field field-name={thursdayHoursField}> </lightning-input-field>
+                            <lightning-input-field field-name={fridayHoursField}> </lightning-input-field>
+                            <lightning-input-field field-name={saturdayHoursField}> </lightning-input-field>
+                            <lightning-input-field field-name={sundayHoursField}> </lightning-input-field>
+
+                            <c-product-images-handler record-id={targetRecordId}></c-product-images-handler>
+
+                            <div class="slds-m-bottom_medium slds-text-align_center">
+                                <lightning-button
+                                        label="Cancel"
+                                        onclick={closeModal}
+                                        class="slds-m-right_small">
+                                    ></lightning-button>
+                                <lightning-button
+                                        variant="brand"
+                                        type="submit"
+                                        label="Save"
+                                        class="slds-m-left_small">
+                                    ></lightning-button>
+                            </div>
+                        </lightning-record-edit-form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Modal Backdrop -->
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+    </lightning-card>
+</template>

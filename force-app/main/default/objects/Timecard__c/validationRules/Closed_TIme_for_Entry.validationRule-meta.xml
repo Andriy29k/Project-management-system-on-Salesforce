@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Closed_TIme_for_Entry</fullName>
+    <active>true</active>
+    <errorConditionFormula>Assignment__r.Closed_for_Time_Entry__c</errorConditionFormula>
+    <errorDisplayField>Assignment__c</errorDisplayField>
+    <errorMessage>Closed for Time Entry</errorMessage>
+</ValidationRule>

@@ -1,0 +1,19 @@
+<template>
+    <lightning-card title="My Skills">
+        <lightning-datatable
+                key-field="Id"
+                data={skills}
+                columns={skillsColumns}
+                hide-checkbox-column
+        ></lightning-datatable>
+    </lightning-card>
+
+    <lightning-card title="My Certifications">
+        <lightning-datatable
+                key-field="Id"
+                data={certifications}
+                columns={certificationColumns}
+                hide-checkbox-column
+        ></lightning-datatable>
+    </lightning-card>
+</template>
